@@ -1,1 +1,1 @@
-# Me at react beginner 
+# Me as a react beginner 
