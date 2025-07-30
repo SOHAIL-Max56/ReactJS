@@ -1,77 +1,145 @@
-# Episode - 2
+# Episode - 2 Notes
 
-- Package(dependencies) .json is the configuration for npm
-- vite/parcel/web pack->Bundler -- Make it production ready 
-- There are two type of dependencies(Package) 1. Normal dependencies
-                                              2. Web dependencies
+- `package.json` is the main configuration file for npm dependencies.
+- Bundlers like Vite, Parcel, and Webpack prepare your code for production by optimizing and packaging it.
+- There are two types of dependencies:
+    1. **Normal dependencies**: Used in your application code.
+    2. **Dev dependencies**: Used only during development (e.g., bundlers, testing tools).
 
-## Tilde (~)
-1. The tilde allows only patch-level updates within a specified minor version. 
-2. It's represented as ~Major.Minor.Patch (e.g., ~1.2.3).
-3. This notation will match any version greater than or equal to 1.2.3 but less than 1.3.0.
-4. It ensures that you receive bug fixes and minor improvements while maintaining stability and compatibility within the specified minor version.
-5. The minor version (the middle number) is locked and will not change when using the tilde. 
+## Tilde (~) in Versioning
+- The tilde (`~`) allows updates to patch versions only, within the same minor version.
+- Example: `~1.2.3` matches versions `>=1.2.3` but `<1.3.0`.
+- You get bug fixes and minor improvements, but the minor version is locked.
 
-## Caret (^)
-1. The caret allows both minor and patch-level updates while keeping the major version locked. 
-2. It's represented as ^Major.Minor.Patch (e.g., ^1.2.3).
-3. This notation will match any version greater than or equal to 1.2.3 but less than 2.0.0.
-4. The caret allows you to benefit from new features and improvements introduced in minor updates while avoiding potentially breaking changes in new major versions.
-5. The major version (the first number) is locked and will not change when using the caret.
-6. It is the default behavior when installing packages without specifying a version range. 
+## Caret (^) in Versioning
+- The caret (`^`) allows updates to both minor and patch versions, but keeps the major version locked.
+- Example: `^1.2.3` matches versions `>=1.2.3` but `<2.0.0`.
+- You get new features and improvements, but avoid breaking changes from major updates.
+- This is the default when installing packages without specifying a version.
 
-## Parcel 
-- Dev build
-- Local server
-- HMR = Hot Module Replacement 
-- File watching Algo -- C++
-- Caching - fast building
-- Image optimization
-- Minification
-- Bundling
-- Compressing
-- Consistent Hashing
-- Differential bundling -- Support older browser
-- Diagnostic 
-- HTTPS
-- Error handling 
-- Tree shaking -- Remove unused code 
-- Different dev and production bundles
+## Parcel Features
+- Provides a development build and local server.
+- Supports Hot Module Replacement (HMR) for instant updates.
+- Uses a fast file watching algorithm (written in C++).
+- Handles caching, image optimization, minification, bundling, compressing, consistent hashing, differential bundling (for older browsers), diagnostics, HTTPS, error handling, tree shaking (removes unused code), and separate dev/production bundles.
 
+- `package-lock.json` records the exact versions of packages used in production.
+- `node_modules` is the local database of installed npm packages.
+- Parcel relies on dependencies listed in `node_modules` to work.
 
-* Package_lock.json: It contain the detail version of packages used at production time
-* node_modules: it's a database for dependencies or packages we installed form npm
-* parcel need help of other dependencies which contain in node_modules
-    which has list of packages need by parcel for work
+- Use `npx` to execute packages directly.
+- Avoid using React from a CDN because updates may break your app. Instead, install React via npm:
+    ```html
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    ```
+- Install React from npm for better version control.
+
+- By default, `<script src="app.js">` treats the file as a normal JS file. To use ES modules, specify:
+    ```html
+    <script type="module" src="app.js"></script>
+    ```
+- Omitting `type="module"` can cause errors in modern browsers.
+
+- Instead of running `npx parcel index.html` every time, add scripts to `package.json`:
+    ```json
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+    ```
+
+---
+
+# Episode - 3 Notes
+
+- Running `npm start` is equivalent to `npx parcel index.html`.
+1. `React.createElement` creates a JavaScript object, which React renders as HTML.
+2. If you see `<h1>Not Render</h1>`, there may be a rendering issue.
+3. `React.createElement` takes three arguments: HTML tag, props, and children.
+     ```js
+     React.createElement('h1', { id: "heading", class: "first heading" }, 'Welcome to react')
+     ```
+- **JSX** is a syntax extension for JavaScript that lets you write HTML-like code inside JavaScript files.
+- JSX is not required for React, but it makes components easier to write and read.
+
+### What is JSX?
+- JSX lets you write HTML-like tags directly in JavaScript.
+- It improves readability and expressiveness.
+- JSX is compiled into `React.createElement()` calls behind the scenes.
+    ```jsx
+    // JSX
+    const element = <h1>Hello, world!</h1>;
+
+    // Compiled JavaScript
+    const element = React.createElement('h1', null, 'Hello, world!');
+    ```
+
+6. **Pure React (without JSX):**
+     ```js
+     const heading = React.createElement("h1", { id: "heading" }, "React day 3");
+     ```
+7. **React using JSX:**
+     ```jsx
+     const heading = <h1 id="heading">React day 3</h1>;
+     ```
+- Both approaches are equivalent, but JSX is more readable and preferred.
+
+8. The rendering flow: JSX → `React.createElement` → Object → Render → HTML.
+9. Babel compiles JSX into JavaScript code that React understands.
+10. JSX attributes are written in camelCase, similar to JavaScript properties.
+    - Example: `className` instead of `class`, `htmlFor` instead of `for`.
+11. If you need to pass a JavaScript expression as an attribute value, wrap it in curly braces.
+    - Example: `<h1 id={headingId}>Hello, world!</h1>`.
+- JSX allows you to use JavaScript expressions inside curly braces `{}`.
+- You can use variables, functions, and expressions within JSX.
+* JSX => babel => React.createElement => Object => Render => HTML
+- JSX is not HTML; it is a syntax extension for JavaScript.
+- JSX is compiled into JavaScript using Babel, which transforms it into `React.createElement` calls.
+- JSX is not required for React, but it makes writing components easier and more readable.
+12. React Components are two types:
+    1. **Functional Components**: Functions that return JSX.(New Method to create components)
+       - Example:
+         ```jsx
+         function MyComponent() {
+           return <h1>Hello, world!</h1>;
+         }
+         ```
+    2. **Class Components**: ES6 classes that extend `React.Component` and have a `render` method. (Old Method to create components)
+       - Example:
+         ```jsx
+         class MyComponent extends React.Component {
+           render() {
+             return <h1>Hello, world!</h1>;
+           }
+         }
+         ```
+* Functional components always Start with a capital letter.
+- Components composition is the process of combining multiple components to create a more complex UI.
+   -Example:
+     ```jsx
+     function App() {
+       return (
+         <div>
+           <Header />
+           <MainContent />
+           <Footer />
+         </div>
+       );
+     }
+     ```
+- JSX Protect against XSS (Cross-Site Scripting) attacks by escaping values embedded in JSX.
+- This means that any user input or dynamic content rendered in JSX is automatically sanitized to prevent malicious scripts from executing.
+- But cross-site scripting can happen in JS 
+13. In JSX
+    - 
+    ``` jsx
+    <MyComponent />
+    ```
+    - is equivalent to
+    ``` jsx
+    <MyComponent></MyComponent>
+    ```
+    - equivalent to
+    ``` jsx
+    {MyComponent()}
+    ```
     
-* To execute a Package we used npx 
-* we doesn't get react package from cdn because once version of react update we couldn't get it 
-``` html
-<script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.development.js"
-    ></script>
-<script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
-></script>
-
-```
-* we install react from npm 
-
-* This thing app.js have normal js file but it's not true 
-``` html
-<script src="app.js">
-```
-* we use type = "module" 
-``` html
-<script type="module" src="app.js">
-```
-- if we don't use 'type' then it show error at website 
-
-* Instead of using npx parcel index.html we will use to add this in package.json script 
-```json
-"start": "parcel index.html",
- "build": "parcel build index.html",
-```
-* Run npm start === npx parcel index.html  
