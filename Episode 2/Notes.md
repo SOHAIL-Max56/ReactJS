@@ -47,7 +47,7 @@
   "build": "parcel build index.html"
   ```
 
----
+-----------------------------------------------------------------------------------------------
 
 # Episode - 3 Notes
 
@@ -142,8 +142,9 @@
   ``` jsx
   {MyComponent()}
   ```
+_______________________________________________________________________________________________
 # Episode - 4 Notes
-14. **Props** in React are used to pass data from a parent to a child component.
+1. **Props** in React are used to pass data from a parent to a child component.
 
 - Props are read-only and enable component reusability.
 - They are received as an object in functional components (`function MyComponent(props) { ... }`) or via `this.props` in class components.
@@ -179,3 +180,129 @@
   const country = user.profile?.address?.country; // undefined (no error)
   ```
 - Optional chaining is useful when dealing with complex objects or APIs where some properties may not always be present, allowing you to avoid unnecessary checks and errors.
+-----------------------------------------------------------------------------------------------
+# Episode - 6 Notes
+1. Shimmer Effect
+   - A placeholder UI element that indicates loading content.
+   - Typically used in skeleton screens to improve perceived performance.
+   - Can be implemented using CSS animations or libraries.
+2. useEffect
+   - A React Hook that allows you to perform side effects in functional components.
+   - It takes two arguments: a function to run and a dependency array.
+   - The effect runs after the render and can be used for data fetching, subscriptions, or manually changing the DOM.
+   - Cleanup can be done by returning a function from the effect.
+   - Example 
+   ```jsx
+   import { useEffect } from "react";
+
+   function MyComponent() {
+     useEffect(() => {
+       // Side effect logic here
+       return () => {
+         // Cleanup logic here
+       };
+     }, []);
+
+     return <div>My Component</div>;
+   }
+   ```
+3. Fetch Data
+   - Use the `fetch` API to retrieve data from a server.
+   - Can be used inside `useEffect` for data fetching on component mount.
+   - Example:
+   ```jsx
+   import { useEffect, useState } from "react";
+
+   function MyComponent() {
+     const [data, setData] = useState(null);
+
+     useEffect(() => {
+       const fetchData = async () => {
+         const response = await fetch("https://api.example.com/data");
+         const json = await response.json();
+         setData(json);
+       };
+
+       fetchData();
+     }, []);
+
+     return <div>{data ? JSON.stringify(data) : "Loading..."}</div>;
+   }
+   ```
+* async/await is a syntax for working with Promises in JavaScript.
+    - It allows you to write asynchronous code that looks synchronous, making it easier to read and maintain.
+    - Example:
+  ```javascript
+  async function fetchData() {
+    try {
+      const response = await fetch("https://api.example.com/data");
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  ```
+* await can only be used inside an `async` function.
+  - It pauses the execution of the function until the Promise is resolved or rejected.
+3. What is Conditional Rendering ?
+   - Conditional rendering is a technique in React that allows you to render different UI elements based on certain conditions.
+   - It can be achieved using JavaScript operators like `if`, `ternary`, or logical `&&`.
+4. useState is used to manage state in functional components.
+   - It returns an array with two elements: the current state value and a function to update it.
+   - Example:
+   ```jsx
+   import { useState } from "react";
+
+   function MyComponent() {
+     const [count, setCount] = useState(0);
+
+     return (
+       <div>
+         <p>Count: {count}</p>
+         <button onClick={() => setCount(count + 1)}>Increment</button>
+       </div>
+     );
+   }
+   ```
+   - count is special varible provided by useState in React.
+   - Whenever the state is updated using the setCount function, the component re-renders with the new count value.
+   - It re-renders the whole MyComponent tree again.
+   - It allows to make dynamic changes to the UI based on user interactions or other events.
+5. All the state variable comes from named imports, such as `useState` and `useEffect`. It comes from React.
+6. When there is change in Local state variable React re-renders the component to reflect the updated state.
+   - This ensures that the UI is always in sync with the current state of the application.
+   - React uses a virtual DOM to efficiently update the UI by only re-rendering the components that have changed.
+7. Microservice is method in which applications are broken down into smaller, independent services that communicate over APIs.
+   - Each service is responsible for a specific functionality and can be developed, deployed, and scaled independently.
+   - This architecture promotes flexibility, maintainability, and allows teams to work on different services simultaneously.
+   - Load the page -> Render the UI -> API (fetch data) -> Render it with new data.
+8. **How we make a search button on React ?**
+    - Create a search input field and a button.
+    - Use `useState` to manage the search query.
+    - On button click, update the state with the search query and trigger a function to fetch or filter data based on the query.
+    - Example:
+    ```jsx
+    import { useState } from "react";
+  
+    function SearchComponent() {
+      const [query, setQuery] = useState("");
+  
+      const handleSearch = () => {
+        console.log("Searching for:", query);
+        // Fetch or filter data based on query
+      };
+  
+      return (
+        <div>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search..."
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+      );
+    }
+    ```
