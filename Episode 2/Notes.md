@@ -306,3 +306,13 @@ ________________________________________________________________________________
       );
     }
     ```
+---------------------------------------------------------------------------------------------------------------
+# Episode - 7 
+1. useEffect 
+  - If there is no dependency array than it runs after every render.
+  - If the dependency array is empty, it runs only once after the initial render.
+  - If the dependency array has values, it runs only when those values change.
+2. useState
+  - Never call useState inside a loop, condition, or nested function.
+  - Always call it at the top level of your component.
+  - Never call useState outside the function component.
