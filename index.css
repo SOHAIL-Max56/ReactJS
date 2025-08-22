@@ -68,10 +68,9 @@
 }
 
 .food_logo {
-    width: 110%;
-    height: 120px;
+       height: 140px;
+       width: 170px;
     border-radius: 8px;
-    object-fit: cover;
 }
 
 .shimmer-container {
@@ -130,4 +129,50 @@
     align-items: center;
     margin-right: 10px;
     
+}
+
+.nav-list {
+    display: flex;
+    list-style-type: none;
+}
+
+.nav-list > li {
+    margin: 0 10px;
+    font-size: 24px;
+    color: #26418d;
+    text-decoration: none;
+    &:hover {
+        color:crimson;
+    }
+}
+
+.res-details{
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color:#f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.menu-item{
+    display: flex;
+    /* object-position: right; */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+.menu-item-description{
+    position: absolute;
+    color: #666;
+}
+.Menu-logo {
+    height: 100px;
+    width: 100px;
+    object-position: right;
+}
+
+.nav-link{
+    text-decoration: none;
 }
