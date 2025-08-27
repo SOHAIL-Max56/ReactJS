@@ -1,4 +1,4 @@
-                                                                                    import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { MENU_URL } from "../utlis/constants";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,8 @@ const RestaurantMenu = () => {
     const json = await data.json();
     console.log(json.data);
     setMenuData(json.data);
+    console.log(json);
+    
   };
 
   if (menuData == null) return <Shimmer />;
