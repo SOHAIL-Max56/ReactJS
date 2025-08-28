@@ -1,3 +1,4 @@
+import useOnlinStatus from "../utlis/useOnlineStatus";
 import { LOGO_URL } from "../utlis/constants";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,17 +11,27 @@ const Header = () => {
       </div>
       <div className="nav-item">
         <ul className="nav-list">
+          <li>Online Status: {useOnlinStatus() ? "✅" : "🔴"}</li>
           <li>
-            <Link className="link" to="/">HOME</Link>
+            <Link className="link" to="/">
+              HOME
+            </Link>
           </li>
           <li>
-            <Link className="link" to="/about">ABOUT US</Link>
+            <Link className="link" to="/about">
+              ABOUT US
+            </Link>
           </li>
           <li>
-            CART
+            <Link className="link" to="/grocery">
+              Grocery
+            </Link>
           </li>
+          <li>CART</li>
           <li>
-            <Link className="link" to="/contact">CONTACT US</Link>
+            <Link className="link" to="/contact">
+              CONTACT US
+            </Link>
           </li>
           <button
             className="login"

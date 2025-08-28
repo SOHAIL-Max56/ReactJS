@@ -509,49 +509,49 @@ const AppLayout = () => {
   8. **ComponentWillUnmount**: Runs before the component is removed from the DOM (cleanup tasks like removing event listeners).
 
 - This lifecycle helps you manage data, side effects, and cleanup in class components. 
-  ```jsx
-class MyComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { count: 0 };
-    console.log(" Parent Constructor");
-  }
+    ``` jsx
+  class MyComponent extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { count: 0 };
+      console.log(" Parent Constructor");
+    }
 
-  componentDidMount() {
-    // Fetch data or set up subscriptions
-    console.log(" Parent Component Did Mount");
-  }
+    componentDidMount() {
+      // Fetch data or set up subscriptions
+      console.log(" Parent Component Did Mount");
+    }
 
-  render() {
-    return(
-      <div>Count: {this.state.count}
-      console.log(" Parent Render");
-      <Name />
-      </div>;
-    ) 
+    render() {
+      return(
+        <div>Count: {this.state.count}
+        console.log(" Parent Render");
+        <Name />
+        </div>;
+      ) 
+    }
   }
-}
-class Name extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { name: "React" };
-    console.log(" Child Constructor");
-  }
+  class Name extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { name: "React" };
+      console.log(" Child Constructor");
+    }
 
-  componentDidMount() {
-    // Fetch data or set up subscriptions
-    console.log(" Child Component Did Mount");
-  }
+    componentDidMount() {
+      // Fetch data or set up subscriptions
+      console.log(" Child Component Did Mount");
+    }
 
-  render() {
-    return(
-      <div>Name: {this.state.name}
-      console.log(" Child Render");
-      </div>;
-    ) 
+    render() {
+      return(
+        <div>Name: {this.state.name}
+        console.log(" Child Render");
+        </div>;
+      ) 
+    }
   }
-}
-```
+  ```
 - The order of execution will be:
   1. Parent Constructor
   2. Parent Render
@@ -569,4 +569,81 @@ class Name extends React.Component {
 8. **ComponentWillUnmount** 
 - It is a lifecycle method that runs just before the component is removed from the DOM.
 - It is used for cleanup tasks, such as removing event listeners, canceling network requests, or clearing timers to prevent memory leaks.
----------------------------------------------------------------------------------------------------------------
+
+---
+# Episode - 9 (Optimizing Our App)
+
+1. **Should we follow the Single Responsibility Principle in React?**
+  - Yes, React components should follow the Single Responsibility Principle (SRP).
+  - SRP means each component should focus on a single functionality or concern.
+  - This makes components more modular, maintainable, and reusable.
+  - It also simplifies testing and debugging, as each component has a clear purpose.
+
+2. **What is a Hook?**
+  - Hooks are special functions in React that let you use state and other React features in functional components.
+  - Introduced in React 16.8, hooks allow stateful logic and side effects without class components.
+  - Common hooks include `useState`, `useEffect`, `useContext`, `useReducer`, and custom hooks.
+  - Hooks must be called at the top level of a component or inside custom hooks, not inside loops or conditions.
+
+3. **Custom Hook**
+  - A custom hook is a reusable function that encapsulates stateful logic using built-in React hooks.
+  - Custom hooks help share logic between components without duplicating code.
+  - They always start with the prefix `use` and can call other hooks inside.
+  - Example:
+    ```jsx
+      // Import hooks from the React package (not a file path)
+            import { useState, useEffect } from "react";
+      function useOnlineStatus() {
+      const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+      useEffect(() => {
+        const handleOnline = () => setIsOnline(true);
+        const handleOffline = () => setIsOnline(false);
+
+        window.addEventListener("online", handleOnline);
+        window.addEventListener("offline", handleOffline);
+
+        return () => {
+          window.removeEventListener("online", handleOnline);
+          window.removeEventListener("offline", handleOffline);
+        };
+      }, []);
+
+      return isOnline;
+      }
+    ```
+
+4. **Chunking / Code Splitting / Lazy Loading / Dynamic Bundling**
+  - These are optimization techniques to improve app performance.
+  - **Chunking**: Breaking your app into smaller pieces (chunks) that can be loaded separately.
+  - **Code Splitting**: Loading only the code needed for the current view, instead of the entire app.
+  - **Lazy Loading**: Loading components or resources only when they are needed, not upfront.
+  - **Dynamic Bundling**: Creating bundles on demand, so users download only what they need.
+  - These techniques reduce initial load time and improve user experience, especially in large applications.
+5. **React.lazy()**
+  - React.lazy() is a function that allows you to load components lazily, meaning they are only loaded when they are needed.
+  - It helps improve performance by reducing the initial load time of your application.
+  - You can use React.lazy() with dynamic imports to split your code into smaller chunks.
+  - Example:
+    ```jsx
+    import React, { Suspense } from "react";
+
+    const LazyComponent = React.lazy(() => import("./LazyComponent"));
+
+    function App() {
+      return (
+        <div>
+          <h1>My App</h1>
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyComponent />
+          </Suspense>
+        </div>
+      );
+    }
+    ```
+  - In this example, LazyComponent is loaded only when it is rendered, and while it is loading, a fallback UI (Loading...) is shown.
+  - Suspense is used to wrap the lazy-loaded component and provide a fallback UI while it is being loaded.
+6. **Suspense**
+  - Suspense is a React component that allows you to display a fallback UI while waiting for some asynchronous operation to complete, such as loading a lazy-loaded component or fetching data.
+  - It is used in conjunction with React.lazy() for lazy loading components.
+---------------------

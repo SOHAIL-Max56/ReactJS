@@ -1,33 +1,18 @@
+import useOnlinStatus from "../utlis/useOnlineStatus";
 import RestaurantCard from "./RestaurantCard";
-import resList from "../utlis/mockdata";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useRestaurantList from "../utlis/useRestaurantList";
 // Body component to display the list of restaurants
 const Body = () => {
-  const [lisOfRestaurant, setlisOfRestaurant] = useState([]);
-  const [filteredRestaurant, setfilteredRestaurnt] = useState([])
   const [searchText, setSearchText] = useState("");
+  const [lisOfRestaurant, filteredRestaurant, setfilteredRestaurnt] =
+    useRestaurantList();
+  const useOnlineStatus = useOnlinStatus();
+  if (useOnlineStatus === false)
+    return <h1> 🔴 Offline, Please check your internet connection!! </h1>;
 
-  useEffect(() => {
-    fetchData(); // Perform any side effects or data fetching here
-  }, []);
-  console.log("Body Render");
-
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://corsproxy.io/?url=https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.6349892&lng=88.4371525&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    console.log(json);
-
-    setlisOfRestaurant(
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setfilteredRestaurnt(    // Make a copy of data in filtered 
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-  };
   // This is called Conditional rendering
 
   return lisOfRestaurant.length == 0 ? (
@@ -44,10 +29,12 @@ const Body = () => {
           <button
             className="search-btn"
             onClick={() => {
-              const filterSearch = lisOfRestaurant.filter(     // Original Rest sa new filter hua
-                (e) => e.info.name.toLowerCase().includes(searchText.toLowerCase()) 
+              const filterSearch = lisOfRestaurant.filter(
+                // Original Rest sa new filter hua
+                (e) =>
+                  e.info.name.toLowerCase().includes(searchText.toLowerCase())
               );
-              setfilteredRestaurnt(filterSearch);     // 
+              setfilteredRestaurnt(filterSearch); //
             }}
           >
             Search
@@ -67,7 +54,11 @@ const Body = () => {
       </div>
       <div className="rest-container">
         {filteredRestaurant.map((resturant) => (
-          <Link key={resturant.info.id} to={"/restaurant/"+resturant.info.id} className="link" >
+          <Link
+            key={resturant.info.id}
+            to={"/restaurant/" + resturant.info.id}
+            className="link"
+          >
             <RestaurantCard resData={resturant} />
           </Link>
         ))}
