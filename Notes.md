@@ -647,3 +647,152 @@ const AppLayout = () => {
   - Suspense is a React component that allows you to display a fallback UI while waiting for some asynchronous operation to complete, such as loading a lazy-loaded component or fetching data.
   - It is used in conjunction with React.lazy() for lazy loading components.
 ---------------------
+# Episode - 10 (Tailwind CSS)
+
+1. Tailwind CSS is a utility-first CSS framework that provides a set of pre-defined classes to style your HTML elements.
+2. It allows you to build custom designs quickly by composing utility classes directly in your HTML.
+3. Tailwind CSS is highly customizable, allowing you to configure colors, spacing, typography, and more through a configuration file.
+4. It promotes a mobile-first approach to responsive design, with built-in support for responsive breakpoints.
+5. Tailwind CSS encourages a component-based approach to styling, making it easy to create reusable styles.
+6. It includes a wide range of utility classes for common CSS properties, such as layout, typography, colors, and effects.
+7. Tailwind CSS can be integrated with various build tools and frameworks, including React, Vue, and Angular.
+---------------
+# Episode - 11 (Data is the new oil)
+
+1. **Higher Order Component (HOC)**
+  - A Higher Order Component (HOC) is a function that takes a component and returns a new component with enhanced functionality.
+  - HOCs are used to share common logic or behavior between multiple components without duplicating code.
+  - They can add props, manage state, or handle side effects for the wrapped component.
+  - Example:
+    ```jsx
+    function withLogging(WrappedComponent) {
+      return class extends React.Component {
+        componentDidMount() {
+          console.log("Component mounted");
+        }
+
+        render() {
+          return <WrappedComponent {...this.props} />;
+        }
+      };
+    }
+    ```
+- In this example, `withLogging` is an HOC that logs a message when the wrapped component mounts.
+2. **What is Controlled and uncontrolled components in React?**
+  - Controlled Component:
+    - A controlled component is a form element (like input, textarea, select) whose value is controlled by React state.
+    - The value of the form element is set by the state, and any changes to the form element update the state.
+    - Example:
+      ```jsx
+      function ControlledInput() {
+        const [value, setValue] = useState("");
+
+        return (
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        );
+      }
+      ```
+  - Uncontrolled Component:
+    - An uncontrolled component is a form element that maintains its own internal state.
+    - The value of the form element is not controlled by React state, and you can access its value using refs.
+    - Example:
+      ```jsx
+      function UncontrolledInput() {
+        const inputRef = useRef(null);
+
+        const handleSubmit = () => {
+          console.log(inputRef.current.value);
+        };
+
+        return (
+          <div>
+            <input type="text" ref={inputRef} />
+            <button onClick={handleSubmit}>Submit</button>
+          </div>
+        );
+      }
+      ```
+3. **Lifting State Up**
+  - Lifting state up is a technique in React where you move the state from a child component to a common parent component.
+  - This allows multiple child components to share and synchronize their state through the parent.
+  - It is useful when you have sibling components that need to communicate or share data.
+  - Example:
+    ```jsx
+    function Parent() {
+      const [sharedState, setSharedState] = useState("");
+
+      return (
+        <div>
+          <ChildA sharedState={sharedState} setSharedState={setSharedState} />
+          <ChildB sharedState={sharedState} />
+        </div>
+      );
+    }
+
+    function ChildA({ sharedState, setSharedState }) {
+      return (
+        <input
+          type="text"
+          value={sharedState}
+          onChange={(e) => setSharedState(e.target.value)}
+        />
+      );
+    }
+
+    function ChildB({ sharedState }) {
+      return <div>Shared State: {sharedState}</div>;
+    }
+    ```
+4. **Props Drilling**
+  - Props drilling is the process of passing data from a parent component to a deeply nested child component through multiple layers of intermediate components.
+  - It can lead to cumbersome and hard-to-maintain code, especially when many components need access to the same data.
+  - To avoid props drilling, you can use state management libraries (like Redux or Context API) to share state across components without passing props through every level of the component tree.
+
+5. **Context**
+  - Context is a React feature that allows you to share data across the component tree without passing props down manually at every level.
+  - It is useful for global data that many components need, such as themes, user authentication, or language settings.
+  - You create a context using `React.createContext()`, provide a value using a `Provider`, and consume the value in child components using `useContext` or `Context.Consumer`.
+  - Example:
+    ```jsx
+    const ThemeContext = React.createContext("light");
+
+    function App() {
+      return (
+        <ThemeContext.Provider value="dark">
+          <Toolbar />
+        </ThemeContext.Provider>
+      );
+    }
+
+    function Toolbar() {
+      return (
+        <div>
+          <ThemedButton />
+        </div>
+      );
+    }
+
+    function ThemedButton() {
+      const theme = useContext(ThemeContext);
+      return <button className={theme}>I am styled by theme context!</button>;
+    }
+    ```
+  - In this example, `ThemeContext` is created and provided with a value of "dark". The `ThemedButton` component consumes the context value using `useContext`.
+6. **useContext Hook**
+  - The `useContext` hook is a React hook that allows you to consume context values in functional components.
+  - It takes a context object (created by `React.createContext`) as an argument and returns the current context value.
+  - Example:
+    ```jsx
+    const ThemeContext = React.createContext("light");
+
+    function ThemedButton() {
+      const theme = useContext(ThemeContext);
+      return <button className={theme}>I am styled by theme context!</button>;
+    }
+    ```
+  - In this example, `ThemedButton` uses the `useContext` hook to access the current value of `ThemeContext`.
+  
