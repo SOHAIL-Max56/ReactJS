@@ -6,8 +6,8 @@ const RestaurantCategories = ({ data, showItem, setShowIndex }) => {
   };
   return (
     <div>
-      <div className=" p-2 m-2 cursor-pointer">
-        <div className="flex justify-between" onClick={handleClick}>
+      <div className=" p-2 m-2 ">
+        <div className="flex justify-between cursor-pointer" onClick={handleClick}>
           <span className="font-bold">
             {data.title}({data.itemCards.length})
           </span>

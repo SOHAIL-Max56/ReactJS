@@ -1,6 +1,14 @@
+import { useDispatch } from "react-redux";
 import { MENU_URL } from "../utlis/constants";
+import { additem } from "../utlis/CartSlice";
 const IteamList = ({ items }) => {
-  console.log(items, "Item List");
+  // console.log(items, "Item List");
+  const dispatch = useDispatch();
+  const handleAdditems = (item) => {
+    // Dispatch the action
+    dispatch(additem(item));
+  };
+
   return (
     <div>
       {items.map((item) => (
@@ -23,8 +31,11 @@ const IteamList = ({ items }) => {
           <div className="w-3/12 p-4">
             <div>
               <div className="absolute">
-                <button className="p-2 mx-18 rounded-lg cursor-pointer bg-amber-200 text-blue-400 shadow-lg">
-                  ADD
+                <button
+                  className="p-2 mx-18 rounded-lg cursor-pointer bg-amber-200 text-blue-400 shadow-lg"
+                  onClick={() => handleAdditems(item)}
+                >
+                  ADD +
                 </button>
               </div>
               <img

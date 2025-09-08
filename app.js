@@ -1,25 +1,44 @@
-import React, { Children } from "react";
+import React, { Children, use, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./src/components/Header";
 import Body from "./src/components/Body";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import AboutUs from "./src/components/AboutUs";
 import Contact from "./src/components/Contact";
 import Error from "./src/components/Error";
 import RestaurantMenu from "./src/components/RestaurantMenu";
 import { lazy, Suspense } from "react";
-import Shimmer from "./src/components/Shimmer";
+import UserContext from "./src/components/UserContext";
+import { Provider } from "react-redux";
+import appStor from "./src/utlis/appStor";
+import Cart from "./src/components/Cart";
+
+
 const AppLayout = () => {
+  const [userid, setuserid] = useState();
+
+useEffect (() => {
+  const data = {
+    name: "React App",
+  }
+  setuserid(data.name);
+}, [])
+
   return (
+    <Provider store={appStor}>
+    <UserContext.Provider value={{userName : userid, setuserid}}>
     <div className="app">
+      <UserContext.Provider value={{userName: "CodeWithSohail"}}>
       <Header />
+      </UserContext.Provider>
       <Outlet />
     </div>
+    </UserContext.Provider>
+    </Provider>
   );
 };
 
  const Grocery = lazy(() => import("./src/components/Grocery"));
-
+ const About = lazy( () => import("./src/components/AboutUs"));
 const approuter = createBrowserRouter([
   {
     path: "/",
@@ -31,16 +50,20 @@ const approuter = createBrowserRouter([
         element: <Body />,
       },
       {
-        path: "/about",
-        element: <AboutUs />,
-      },
-      {
         path: "/grocery",
         element: <Suspense fallback = {<h1>Loading.....</h1>}><Grocery/></Suspense>,
       },
       {
+        path: "/about",
+        element: <Suspense fallback = {<h1>Loading.....</h1>}><About/></Suspense>,
+      },
+      {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
       {
         path: '/restaurant/:resid',

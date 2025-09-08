@@ -724,7 +724,7 @@ const AppLayout = () => {
     ```jsx
     function Parent() {
       const [sharedState, setSharedState] = useState("");
-
+`
       return (
         <div>
           <ChildA sharedState={sharedState} setSharedState={setSharedState} />
@@ -795,4 +795,57 @@ const AppLayout = () => {
     }
     ```
   - In this example, `ThemedButton` uses the `useContext` hook to access the current value of `ThemeContext`.
-  
+
+---------------------------------------------------------------------------------------------------------------
+
+# Episode - 12 (Building Store)
+
+1. **Redux**
+  - It is not mandotory to use Redux with React for small or mid size applications, but it can be beneficial for managing complex state in larger applications.
+2. **Working of Redux**
+  - Redux works on a unidirectional data flow principle, where the state is stored in a single store and can only be updated by dispatching actions.
+  - The Redux store is divided into Slices, each representing a specific part of the state.
+  - Actions are plain JavaScript objects that describe the type of change to be made to the state.
+  - Reducers are pure functions that take the current state and an action as arguments and return
+  - The flow of data in Redux follows these steps:
+    1. An action is dispatched to indicate a change in state.
+    2. The action is processed by reducers, which are pure functions that take the current state and the action as arguments and return a new state.
+    3. The new state is stored in the Redux store.
+    4. Components subscribed to the store are notified of the state change and re-render with the updated state.
+  - To read data from the Redux store we use selector function, which is a function that takes the entire state as an argument and returns a specific part of the state, its called subscribe to the store.
+### Core Concepts of Redux
+  1. **Store**: The store is a single JavaScript object that holds the entire state of the application. It is created using the `createStore` function from the Redux library.
+  2. **Actions**: Actions are plain JavaScript objects that describe a change in the state. They must have a `type` property that indicates the type of action being performed. Actions can also have additional properties to provide more information about the change.
+  3. **Reducers**: Reducers are pure functions that take the current state and an action as arguments and return a new state. They determine how the state should change based on the action type.
+  4. **Dispatch**: The `dispatch` function is used to send actions to the store. When an action is dispatched, the store calls the appropriate reducer to update the state.
+  5. **Selectors**: Selectors are functions that extract specific pieces of state from the store. They are used to read data from the store in a more efficient way.
+  6. **Middleware**: Middleware is a way to extend Redux with custom functionality. It allows you to intercept actions before they reach the reducers and perform additional tasks, such as logging, asynchronous operations, or modifying actions.
+  7. **Provider**: The `Provider` component from the `react-redux` library is used to make the Redux store available to all components in the application. It wraps the root component and provides access to the store through the React context.
+  8. **Connect**: The `connect` function from the `react-redux` library is used to connect React components to the Redux store. It allows components to access state and dispatch actions as props.
+  9. **Redux DevTools**: Redux DevTools is a browser extension that provides a visual interface for inspecting and debugging the Redux store. It allows you to view the state, actions, and changes over time.
+  10. **Thunk**: Redux Thunk is a middleware that allows you to write action creators that return functions instead of plain objects. This is useful for handling asynchronous actions, such as API calls.
+  11. **Immutable State**: In Redux, the state is immutable, meaning it cannot be changed directly. Instead, you create a new state object with the updated values using reducers.
+  12. **Single Source of Truth**: The Redux store is the single source of truth for the application state. All components read from and write to the store, ensuring consistency across the application.
+  13. **Unidirectional Data Flow**: Redux follows a unidirectional data flow, where data flows in one direction: from the store to the components and from the components to the store through actions.
+  14. **Separation of Concerns**: Redux promotes a clear separation of concerns by keeping the state management logic separate from the UI components. This makes it easier to maintain and test the application.
+  15. **Scalability**: Redux is designed to handle large and complex applications with ease. It provides a structured way to manage state and makes it easier to scale the application as it grows.
+  16. Dispatch (Action) => Reducer => Slice of Store => Selector => Component
+
+  ![Redux Flow](./Notes(image).PNG)
+
+3. Difference between **onClick = {handler}** and **onClick = {handler(items)}** and **onClick = {() => handler(items)}**
+  - `onClick = {handler}`: This syntax passes the function reference `handler` to the `onClick` event. The function will be called when the button is clicked, and it will receive the click event as an argument.
+  - `onClick = {handler(items)}`: This syntax immediately invokes the `handler` function with `items` as an argument when the component renders. The return value of the function (if any) will be assigned to the `onClick` event, which is not the intended behavior for event handlers.
+  - `onClick = {() => handler(items)}`: This syntax uses an arrow function to create a new function that calls `handler` with `items` as an argument when the button is clicked. This way, `handler` is only invoked when the click event occurs, and it receives `items` as an argument.
+  - In summary, use `onClick = {handler}` to pass a function reference, `onClick = {handler(items)}` to invoke the function immediately (not recommended for event handlers), and `onClick = {() => handler(items)}` to pass a function that calls `handler` with specific arguments when the event occurs.
+
+4. Never subscribe to the entire store, instead subscribe to the specific slice of the store.
+  - Subscribing to the entire store can lead to unnecessary re-renders and performance issues.
+  - Instead, use selectors to subscribe to specific slices of the store that your component needs.
+  - This way, your component will only re-render when the specific slice of state it depends on changes, improving performance and reducing unnecessary updates.
+
+5.**reducer** Vs **reducers** 
+  - `reducer`: A reducer is a single function that takes the current state and an action as arguments and returns a new state. It is responsible for handling state changes for a specific part of the application.
+  - `reducers`: Reducers is a collection of multiple reducer functions that manage different parts of the application state. In Redux, you can combine multiple reducers into a single root reducer using the `combineReducers` function. Each reducer in the collection is responsible for managing its own slice of the state.
+  --------------------------------------------------------------------------------------------
+  # Episode - 13 (Time for Testing)

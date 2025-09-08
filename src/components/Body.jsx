@@ -10,12 +10,11 @@ const Body = () => {
   const [lisOfRestaurant, filteredRestaurant, setfilteredRestaurnt] =
     useRestaurantList();
   const useOnlineStatus = useOnlinStatus();
-  console.log(lisOfRestaurant)
   if (useOnlineStatus === false)
     return <h1> 🔴 Offline, Please check your internet connection!! </h1>;
 
   // This is called Conditional rendering
-  
+
   return lisOfRestaurant.length == 0 ? (
     <Shimmer />
   ) : (
@@ -23,7 +22,7 @@ const Body = () => {
       <div className="filter flex justify-between m-4">
         <div className="search">
           <input
-          className="border-solid border-2 border-black rounded-md"
+            className="border-solid border-2 border-black rounded-md"
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -43,7 +42,7 @@ const Body = () => {
           </button>
         </div>
         <button
-          className="filter-btn px-2 py-0.5 m-2 bg-green-300 rounded-md hover:bg-green-200"
+          className="filter-btn px-2 h-9 m-2 bg-green-300 rounded-md hover:bg-green-200"
           onClick={() => {
             const filteredList = lisOfRestaurant.filter(
               (res) => res.info.avgRating >= 4.5
@@ -53,6 +52,10 @@ const Body = () => {
         >
           Top Rated Restaurant
         </button>
+        <div className="p-4 m-2 rounded-md ">
+          <label className="m-2">User Name</label>
+          <input className=" border-solid border to-black" />
+        </div>
       </div>
       <div className="rest-container flex flex-wrap justify-center iteam-strech">
         {filteredRestaurant.map((resturant) => (
